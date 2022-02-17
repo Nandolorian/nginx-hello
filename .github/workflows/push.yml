@@ -18,7 +18,12 @@ jobs:
     - name: Login to Amazon ECR
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v1
-
+      
+    - name: Push Image                                                                                      
+      env:                                                                                                          
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}                                                       
+        RELEASE_IMAGE: ${{ steps.login-ecr.outputs.registry }}/hello:latest
+        
     - name: deploy to cluster
       uses: kodermax/kubectl-aws-eks@master
       env:
